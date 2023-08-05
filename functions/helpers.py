@@ -11,7 +11,7 @@ class MissingInputError(Exception):
 def smart_undersample(
     model: ClassifierMixin,
     df_train: Union[pd.DataFrame, None] = None,
-    X_train: Union[pd.DataFrame, None] = None,
+    x_train: Union[pd.DataFrame, None] = None,
     y_train: Union[pd.Series, None] = None,
     n_runs: int = 30
 ) -> pd.DataFrame:
@@ -22,9 +22,9 @@ def smart_undersample(
 
     :param model: The classifier model to be used for bootstrapped predictions.
     :param df_train: The training dataframe containing features and target.
-                     Either df_train or X_train and y_train need to be passed.
+                     Either df_train or x_train and y_train need to be passed.
                      Default is None.
-    :param X_train: The training features dataframe.
+    :param x_train: The training features dataframe.
                     Required if df_train is None.
                     Default is None.
     :param y_train: The training target series.
@@ -36,19 +36,19 @@ def smart_undersample(
     :rtype: pd.DataFrame
     """
 
-    # Check if either df_train or X_train and y_train are provided
-    if (X_train is None or y_train is None) and df_train is None:
-        raise MissingInputError('Either df_train or X_train and y_train needs to be passed')
+    # Check if either df_train or x_train and y_train are provided
+    if (x_train is None or y_train is None) and df_train is None:
+        raise MissingInputError('Either df_train or x_train and y_train needs to be passed')
 
-    # Convert X_train and y_train to df_train if only X_train and y_train are provided
-    if (X_train is not None or y_train is not None) and df_train is None:
-        df_train = X_train.copy()
+    # Convert x_train and y_train to df_train if only x_train and y_train are provided
+    if (x_train is not None or y_train is not None) and df_train is None:
+        df_train = x_train.copy()
         df_train['y'] = y_train
 
-    # Convert df_train to X_train and y_train if only df_train is provided
-    elif (X_train is None or y_train is None) and df_train is not None:
-        X_train = df_train.copy()
-        X_train = X_train.drop('y', axis=1)
+    # Convert df_train to x_train and y_train if only df_train is provided
+    elif (x_train is None or y_train is None) and df_train is not None:
+        x_train = df_train.copy()
+        x_train = x_train.drop('y', axis=1)
         y_train = df_train['y']
 
     # Get the unique classes to predict
@@ -67,12 +67,12 @@ def smart_undersample(
 
         # Fit the model only on the sampled data
         model.fit(
-            X_train[X_train.index.isin(negative_index_list + positive_index_list)],
+            x_train[x_train.index.isin(negative_index_list + positive_index_list)],
             y_train[y_train.index.isin(negative_index_list + positive_index_list)]
         )
 
         # Predict probabilities for all the observations
-        pred_probabilities = model.predict_proba(X_train)
+        pred_probabilities = model.predict_proba(x_train)
 
         # Update predictions for all observations
         for class_num in classes:
