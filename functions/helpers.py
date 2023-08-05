@@ -16,24 +16,29 @@ def smart_undersample(
     n_runs: int = 30
 ) -> pd.DataFrame:
     """
-    Bootstrapped hard negative sampling
+    Bootstrapped hard negative sampling.
     Solving a class-imbalance case (with the negative class as the majority class)
-    by undersampling the negative class by keeping only top k hard negatives samples
+    by undersampling the negative class by keeping only top k hard negatives samples.
 
-    Parameters:
-        model (ClassifierMixin): The classifier model to be used for bootstrapped predictions.
-        df_train (pd.DataFrame, optional): The training dataframe containing features and target. Defaults to None.
-        X_train (pd.DataFrame, optional): The training features dataframe. Required if df_train is None. Defaults to None.
-        y_train (pd.Series, optional): The training target series. Required if df_train is None. Defaults to None.
-        n_runs (int, optional): The number of bootstrap runs. Defaults to 30.
+    :param model: The classifier model to be used for bootstrapped predictions.
+    :param df_train: The training dataframe containing features and target.
+                     Either df_train or X_train and y_train need to be passed.
+                     Default is None.
+    :param X_train: The training features dataframe.
+                    Required if df_train is None.
+                    Default is None.
+    :param y_train: The training target series.
+                    Required if df_train is None.
+                    Default is None.
+    :param n_runs: The number of bootstrap runs. Default is 30.
 
-    Returns:
-        pd.DataFrame: The undersampled training dataframe containing the hard negatives
+    :return: The undersampled training dataframe after bootstrapped predictions.
+    :rtype: pd.DataFrame
     """
 
     # Check if either df_train or X_train and y_train are provided
     if (X_train is None or y_train is None) and df_train is None:
-        raise MissingInputError('Either df_train or X_train and y_train need to be passed')
+        raise MissingInputError('Either df_train or X_train and y_train needs to be passed')
 
     # Convert X_train and y_train to df_train if only X_train and y_train are provided
     if (X_train is not None or y_train is not None) and df_train is None:
