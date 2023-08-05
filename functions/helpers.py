@@ -8,7 +8,7 @@ class MissingInputError(Exception):
     pass
 
 
-def compute_bootstrapped_predictions(
+def smart_undersample(
     model: ClassifierMixin,
     df_train: Union[pd.DataFrame, None] = None,
     X_train: Union[pd.DataFrame, None] = None,
