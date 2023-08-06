@@ -36,9 +36,6 @@ class CrossFoldEncoder:
         """
         Fits the encoder on the training data of each fold and applies it to the corresponding validation data.
         The encoded data from all folds is then concatenated to form the final output.
-
-
-
         :param x: The input data to be encoded.
         :type x: pandas DataFrame
         :param y: The target variable.
