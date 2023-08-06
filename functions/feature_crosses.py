@@ -9,7 +9,6 @@ def create_feature_crosses(df: pd.DataFrame) -> pd.DataFrame:
     :return: a pandas DataFrame containing the original features and the feature crosses
     """
 
-  
     # Create a new DataFrame to store the feature crosses
     df_crosses = pd.DataFrame()
 
