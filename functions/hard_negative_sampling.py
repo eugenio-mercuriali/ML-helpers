@@ -67,8 +67,9 @@ def smart_undersample(
 
         # Fit the model only on the sampled data
         model.fit(
-            x_train[x_train.index.isin(negative_index_list + positive_index_list)],
-            y_train[y_train.index.isin(negative_index_list + positive_index_list)]
+            sampled_data = negative_index_list + positive_index_list
+            x_train[x_train.index.isin(sampled_data)],
+            y_train[y_train.index.isin(sampled_data)]
         )
 
         # Predict probabilities for all the observations
