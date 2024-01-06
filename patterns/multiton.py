@@ -39,8 +39,8 @@ def make_hashable(obj):
 class BasePredictor(ABC):
     def __init__(self, data: pd.DataFrame, config: dict):
         self.data = data
-        self._data_components = config['data_componets'])
-        self._predictor_components = config['predictor_conponents']
+        self._data_components = config['data_components'])
+        self._predictor_components = config['predictor_components']
 
 
 class CustomPredictor(BasePredictor):
